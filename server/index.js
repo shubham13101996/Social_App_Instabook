@@ -8,7 +8,9 @@ import multer from "multer";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { log } from "console";
+import { register } from "./controllers/auth.js";
+
+import authRoutes from "./routes/auth.js"
 
 // CONFIGURATION
 
@@ -38,8 +40,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const PORT = process.env.PORT;
+app.post("/auth/register", upload.single("picture"), register);
 
+
+// AUTH ROUTES
+app.use('/auth',authRoutes)
+
+
+// PORT NUMBER 
+const PORT = process.env.PORT || 3001;
+
+
+
+// MONGODATABASE CONNECTION 
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
