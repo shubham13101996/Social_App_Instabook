@@ -8,6 +8,7 @@ import multer from "multer";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import { log } from "console";
 
 // CONFIGURATION
 
@@ -24,6 +25,28 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extented: "true" }));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-app.listen(8080, () => {
-  console.log("server is running ");
+// FILE STORAGE
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/assets");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
 });
+
+const upload = multer({ storage });
+
+const PORT = process.env.PORT;
+
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("DB connnected");
+    app.listen(PORT, () => console.log("SERVER IS RUNNIG ON PORT"));
+  })
+  .catch((err) => console.log(err));
