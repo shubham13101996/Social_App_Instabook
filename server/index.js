@@ -10,7 +10,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { register } from "./controllers/auth.js";
 
-import authRoutes from "./routes/auth.js"
+import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
 
 // CONFIGURATION
 
@@ -42,17 +43,14 @@ const upload = multer({ storage });
 
 app.post("/auth/register", upload.single("picture"), register);
 
-
 // AUTH ROUTES
-app.use('/auth',authRoutes)
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
 
-
-// PORT NUMBER 
+// PORT NUMBER
 const PORT = process.env.PORT || 3001;
 
-
-
-// MONGODATABASE CONNECTION 
+// MONGODATABASE CONNECTION
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
