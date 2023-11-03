@@ -43,7 +43,7 @@ export const getFeedPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
   try {
     const { userId } = req.params;
-    const post = await Post.find({ userId });
+    const post = await Post.find({ userId }).sort("-createdAt");
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -71,7 +71,7 @@ export const likePosts = async (req, res) => {
       post.likes.set(userId, true);
     }
 
-    // afterthat get the the post by id search and update that with the latest likes info 
+    // afterthat get the the post by id search and update that with the latest likes info
     const updatedPost = await Post.findByIdAndUpdate(
       id,
       {
