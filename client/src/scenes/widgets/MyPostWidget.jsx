@@ -22,8 +22,8 @@ import Dropzone from "react-dropzone";
 import WidgetWrapper from "../../components/widgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import UserImage from "../../components/userImage";
 import { setPosts } from "../../state";
+import UserImage from "../../components/UserImage";
 
 const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();

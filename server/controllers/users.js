@@ -68,6 +68,7 @@ export const addRemoveFriend = async (req, res) => {
         return { _id, firstName, lastName, occupation, location, picturePath };
       }
     );
+    res.status(200).json(formattedFriends);
   } catch (error) {
     console.log(error);
     res.status(500).json({
